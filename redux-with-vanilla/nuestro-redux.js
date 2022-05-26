@@ -21,7 +21,7 @@ function createStore(reducer) {
   const subscribe = (listener) => {
     listeners.push(listener)
     return () => {
-      listeners = listeners.filter((l) => l !== listener)
+      listeners = listeners.filter((lis) => lis !== listener)
     }
   }
 
@@ -51,11 +51,11 @@ function todos(state = [], action) {
 
 const store = createStore(todos);
 
-store.subscribe(() => {
+const unsubscribe1 = store.subscribe(() => {
   console.log('El nuevo estado es: ', store.getState());
 })
 
-const unsubscribe = store.subscribe(() => {
+const unsubscribe2 = store.subscribe(() => {
   console.log('El store cambió');
 })
 
