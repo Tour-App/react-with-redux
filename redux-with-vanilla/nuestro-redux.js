@@ -79,13 +79,5 @@ const unsubscribe1 = store.subscribe(() => {
 const unsubscribe2 = store.subscribe(() => {
   console.log('El store cambió')
 })
-
-store.dispatch({
-  type: 'ADD_TODO',
-  todo: {
-    id: 0,
-    name: 'Aprender Redux',
-    complete: false
-  }
-})
+ 
 
