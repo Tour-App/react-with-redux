@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 console.log('Saludos desde nuestro redux');
 
 // let action = {
@@ -38,25 +39,53 @@ function createStore(reducer) {
 }
 // El REDUCER
 function todos(state = [], action) {
-  if (action.type === 'ADD_TODO') {
-    return state.concat([action.todo])
+  switch (action.type) {
+    case 'ADD_TODO' :
+      return state.concat([action.todo])
+    case 'REMOVE_TODO' :
+      return state.filter((todo) => todo.id !== action.id)
+    case 'TOGGLE_TODO': 
+      // return state.map((todo) => todo.id !== action.id ? todo : Object.assign({}, todo, { complete: !todo.complete }))
+      return state.map((todo) => todo.id !== action.id ? todo : { ...todo, complete: !todo.complete })
+    case 'ERRASE_TODOS': 
+      return []
+    default: return state
   }
-
-  if (action.type === 'ERRASE_TODOS') {
-    return state = [];
-  }
-
-  return state;
 }
 
-const store = createStore(todos);
+function goals(state = [], action) {
+  switch(action.type) {
+    case 'ADD_GOAL': 
+      return state.concat([action.goal])
+    case 'REMOVE_GOAL': 
+      return state.filter((goal) => goal.id !== action.id)
+    default: return state;
+  }
+}
+
+function app(state = {}, action) {
+  return {
+    todos: todos(state.todos, action),
+    goals: goals(state.goals, action)
+  }
+}
+
+const store = createStore(app)
 
 const unsubscribe1 = store.subscribe(() => {
   console.log('El nuevo estado es: ', store.getState());
 })
 
 const unsubscribe2 = store.subscribe(() => {
-  console.log('El store cambió');
+  console.log('El store cambió')
 })
 
-// unsubscribe();
+store.dispatch({
+  type: 'ADD_TODO',
+  todo: {
+    id: 0,
+    name: 'Aprender Redux',
+    complete: false
+  }
+})
+
