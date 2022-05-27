@@ -4,10 +4,22 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import createStore from './store';
+import rootReducer from './store/reducers/root';
+import { addTodoAction } from './store/actions/todos';
+
+const store = createStore(rootReducer);
+
+store.subscribe(() => {
+  console.log('El estado de Redux cambió', store.getState());
+})
+
+store.dispatch(addTodoAction('Aprender React'));
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <App store={store} />
   </React.StrictMode>
 );
 
