@@ -41,17 +41,27 @@ function createStore(reducer) {
     dispatch
   }
 }
+
+// Action types
+const ADD_TODO = 'ADD_TODO'
+const REMOVE_TODO = 'REMOVE_TODO'
+const TOGGLE_TODO = 'TOGGLE_TODO'
+const ERRASE_TODOS = 'ERRASE_TODOS'
+
+const ADD_GOAL = 'ADD_GOAL';
+const REMOVE_GOAL = 'REMOVE_GOAL';
+
 // El REDUCER
 function todos(state = [], action) {
   switch (action.type) {
-    case 'ADD_TODO' :
+    case ADD_TODO :
       return state.concat([action.todo])
-    case 'REMOVE_TODO' :
+    case REMOVE_TODO :
       return state.filter((todo) => todo.id !== action.id)
-    case 'TOGGLE_TODO': 
+    case TOGGLE_TODO: 
       // return state.map((todo) => todo.id !== action.id ? todo : Object.assign({}, todo, { complete: !todo.complete }))
       return state.map((todo) => todo.id !== action.id ? todo : { ...todo, complete: !todo.complete })
-    case 'ERRASE_TODOS': 
+    case ERRASE_TODOS: 
       return []
     default: return state
   }
@@ -59,15 +69,20 @@ function todos(state = [], action) {
 
 function goals(state = [], action) {
   switch(action.type) {
-    case 'ADD_GOAL': 
+    case ADD_GOAL: 
       return state.concat([action.goal])
-    case 'REMOVE_GOAL': 
+    case REMOVE_GOAL: 
       return state.filter((goal) => goal.id !== action.id)
     default: return state;
   }
 }
 
-function app(state = {}, action) {
+const INITIAL_STATE = {
+  todos: [],
+  goals: []
+}
+
+function app(state = INITIAL_STATE, action) {
   return {
     todos: todos(state.todos, action),
     goals: goals(state.goals, action)
@@ -83,5 +98,16 @@ const unsubscribe1 = store.subscribe(() => {
 const unsubscribe2 = store.subscribe(() => {
   console.log('El store cambió')
 })
- 
 
+
+// Action creators
+function addTodoAction(todo) {
+  return {
+    type: ADD_TODO,
+    todo: {
+      id: generateId(),
+      complete: false,
+      name: todo
+    }
+  }
+}

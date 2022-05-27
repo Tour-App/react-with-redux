@@ -26,14 +26,7 @@
         const name = input.value
         input.value = ''
 
-        store.dispatch({
-          type: 'ADD_TODO',
-          todo: {
-            name,
-            complete: false,
-            id: generateId()
-          }
-        })
+        store.dispatch(addTodoAction(name))
       }
 
       document.getElementById('todoBtn').addEventListener('click', addTodo)
@@ -88,6 +81,8 @@
         todos.forEach(addTodoToDOM)
         goals.forEach(addGoalToDOM)
       })
+
+      store.dispatch(addTodoAction('Aprender react'))
     </script>
   </body>
 </html>
