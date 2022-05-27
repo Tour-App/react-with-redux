@@ -2,10 +2,10 @@ import React from 'react';
 import Todos from './Todos';
 import Goals from './Goals';
 
-function TodoList({ addTodo, todos }) {
+function TodoList() {
   return (
     <div>
-      <Todos addTodo={addTodo} todos={todos} />
+      <Todos />
       <Goals />
     </div>
   )

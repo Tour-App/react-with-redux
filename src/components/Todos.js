@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import List from './List';
+
+import { addTodoAction } from '../store/actions/todos';
 
 function Todos({ addTodo, todos }) {
   const [input, setInput] = useState('');
@@ -23,4 +26,16 @@ function Todos({ addTodo, todos }) {
   )
 }
 
-export default Todos;
+function mapStateToProps(state) {
+  return {
+    todos: state.todos
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addTodo: (todo) => dispatch(addTodoAction(todo))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todos);
